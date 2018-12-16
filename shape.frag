@@ -20,8 +20,35 @@ void main()
   float t = dot(p, v) / (length(p) * length(v));
   */
 
+  /*
   // zoom line
-  float t = atan(p.y, p.x) + time * 20.0;
+  float t = atan(p.y, p.x) + time * 1.0;
   t = sin(t * 10.0);
+  */
+
+  /*
+  // flower
+  float u = sin((atan(p.y, p.x) + time * 0.5) * 6.0);
+  float t = 0.01 / abs(u - length(p));
+  */
+
+  /*
+  // wave ring
+  float u = sin((atan(p.y, p.x) + time * 0.5) * 20.0) * 0.01;
+  float t = 0.01 / abs(0.5 + u - length(p));
+  */
+
+  /*
+  // naruto
+  float u = abs(sin((atan(p.y, p.x) - length(p) * 10.0 + time - 2.0) * 1.0) * 0.5) + 0.3;
+  float t = 0.01 / abs(u - length(p));
+  */
+
+  ///*
+  // fan
+  float u = abs(sin((atan(p.y, p.x) - length(p) * 1.0 + time) * 5.0) + 0.1);
+  float t = 0.01 / abs(u - length(p));
+  //*/
+
   gl_FragColor = vec4(vec3(t), 1.0);
 }
