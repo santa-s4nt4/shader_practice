@@ -10,7 +10,7 @@ void main()
 
   // length
   float t = 1.1 - length(m - p);
-  t = pow(t, 25.0);  
+  t = pow(t, 25.0);
   /* another solution
   float t = 0.1 / length(m - p);
   */
