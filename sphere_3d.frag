@@ -47,7 +47,8 @@ void main(){
   if(abs(distance) < 0.001){
     vec3 normal = getNormal(rPos);
     float diff = clamp(dot(lightDir, normal), 0.1, 1.0);
-    gl_FragColor = vec4(vec3(diff), 1.0);
+    //gl_FragColor = vec4(vec3(diff), 1.0);
+    gl_FragColor = vec4(normal, 1.0);
   }else{
     gl_FragColor = vec4(vec3(0.0), 1.0);
   }
