@@ -17,7 +17,7 @@ vec3 trans(vec3 p){
 
 float distanceFunc(vec3 p){
   vec3 q  =abs(trans(p));
-  return length(max(q - vec3(0.5, 0.5, 0.5), 0.0));
+  return length(max(q - vec3(0.5, 0.5, 0.5), 0.0)) - 0.1;
 }
 
 vec3 getNormal(vec3 p){
