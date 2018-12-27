@@ -31,9 +31,9 @@ float distanceFunc(vec3 p){
 vec3 genNormal(vec3 p){
   float d = 0.0001;
   return normalize(vec3(
-        distFunc(p + vec3(d, 0.0, 0.0)) - distFunc(p + vec3(-d, 0.0, 0.0)),
-        distFunc(p + vec3(0.0, d, 0.0)) - distFunc(p + vec3(0.0, -d, 0.0)),
-        distFunc(p + vec3(0.0, 0.0, d)) - distFunc(p + vec3(0.0, 0.0, -d))
+        distanceFunc(p + vec3(d, 0.0, 0.0)) - distanceFunc(p + vec3(-d, 0.0, 0.0)),
+        distanceFunc(p + vec3(0.0, d, 0.0)) - distanceFunc(p + vec3(0.0, -d, 0.0)),
+        distanceFunc(p + vec3(0.0, 0.0, d)) - distanceFunc(p + vec3(0.0, 0.0, -d))
     ));
 }
 
@@ -51,7 +51,7 @@ void main(){
   tmp = 0.0;
   vec3 dPos = cPos;
   for(int i = 0; i < 256; i++){
-    dist = distFunc(dPos);
+    dist = distanceFunc(dPos);
     tmp += dist;
     dPos = cPos + tmp * ray;
   }
@@ -60,7 +60,7 @@ void main(){
   vec3 color;
   if(abs(dist) < 0.001){
     vec3 normal = genNormal(dPos);
-    float diff = clamp(dot(lightDir, normal), 0,1, 1.0);
+    float diff = clamp(dot(lightDir, normal), 0.1, 1.0);
     color = vec3(1.0, 1.0, 1.0) * diff;
   }else{
     color = vec3(0.0);
