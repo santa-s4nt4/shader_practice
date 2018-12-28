@@ -34,7 +34,7 @@ float distFunc(vec3 p){
   return smoothMin(d1, d2, 8.0);
 }
 
-vec2 getNormal(vec3 p){
+vec3 genNormal(vec3 p){
   float d = 0.0001;
   return normalize(vec3(
     distFunc(p + vec3(d, 0.0, 0.0)) - distFunc(p + vec3(-d, 0.0, 0.0)),
@@ -48,9 +48,9 @@ void main(){
   vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
 
   // camera and ray
-  vec3 = cSide = cross(cDir, cUp);
+  vec3 cSide = cross(cDir, cUp);
   float targetDepth = 1.0;
-  vec3 ray = normalize(cSize * p.x + cUp * p.y + cDir * targetDepth);
+  vec3 ray = normalize(cSide * p.x + cUp * p.y + cDir * targetDepth);
 
   // marching loop
   float tmp, dist;
@@ -64,8 +64,8 @@ void main(){
 
   // hit check
   vec3 color;
-  if(abs(dis) < 0.001){
-    vec3 normal = getNormal(dPos);
+  if(abs(dist) < 0.001){
+    vec3 normal = genNormal(dPos);
     float diff = clamp(dot(lightDir, normal), 0.1, 1.0);
     color = vec3(1.0, 1.0, 1.0) * diff;
   }else{
