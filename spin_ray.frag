@@ -28,3 +28,26 @@ vec3 rotate(vec3 p, float angle, vec3 axis){
     );
     return m * p;
 }
+
+// smoothing min
+float smoothMin(float d1, float d2, float k){
+  float h = exp(-k * d1) + exp(-k * d2);
+  return -log(h) / k;
+}
+
+// torus
+float distFuncTorus(vec3 p, vec2 r){
+  vec2 d = vec2(length(p.xy) - r.x, p.z);
+  return length(d) - r.y;
+}
+
+// box
+float distFuncBox(vec3 p){
+  return length(max(abs(p) - vec3(2.0, 0.1, 0.5), 0.0)) - 0.1;
+}
+
+// cylinder
+float distFuncCylinder(vec3 p, vec2 r){
+  vec2 d = abs(vec2(length(p.xy), p.z)) - r;
+  return min(max(d.x, d.y), 0.0) + length(max(d, 0.0)) - 0.1;
+}
