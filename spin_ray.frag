@@ -54,9 +54,9 @@ float distFuncCylinder(vec3 p, vec2 r){
 
 // distance function
 float distFunc(vec3 p){
-    vec3 q = rotate(p, radians(time * 10.0), vec3(1.0, 0.5, 0.0));
-    float d1 = distFuncTorus(q, vec2(1.5, 0.25));
-    float d2 = distFuncBox(q);
-    float d3 = distFuncCylinder(q, vec2(0.75, 0.25));
-    return smoothMin(smoothMin(d1, d2, 16.0), d3, 16.0);
+  vec3 q = rotate(p, radians(time * 10.0), vec3(1.0, 0.5, 0.0));
+  float d1 = distFuncTorus(q, vec2(1.5, 0.25));
+  float d2 = distFuncBox(q);
+  float d3 = distFuncCylinder(q, vec2(0.75, 0.25));
+  return smoothMin(smoothMin(d1, d2, 16.0), d3, 16.0);
 }
