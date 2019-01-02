@@ -60,3 +60,12 @@ float distFunc(vec3 p){
   float d3 = distFuncCylinder(q, vec2(0.75, 0.25));
   return smoothMin(smoothMin(d1, d2, 16.0), d3, 16.0);
 }
+
+vec3 genNormal(vec3 p){
+    float d = 0.0001;
+    return normalize(vec3(
+        distFunc(p + vec3(  d, 0.0, 0.0)) - distFunc(p + vec3( -d, 0.0, 0.0)),
+        distFunc(p + vec3(0.0,   d, 0.0)) - distFunc(p + vec3(0.0,  -d, 0.0)),
+        distFunc(p + vec3(0.0, 0.0,   d)) - distFunc(p + vec3(0.0, 0.0,  -d))
+    ));
+}
