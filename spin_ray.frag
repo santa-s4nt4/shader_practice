@@ -69,3 +69,7 @@ vec3 genNormal(vec3 p){
       distFunc(p + vec3(0.0, 0.0,   d)) - distFunc(p + vec3(0.0, 0.0,  -d))
   ));
 }
+
+void main(){
+  
+}
