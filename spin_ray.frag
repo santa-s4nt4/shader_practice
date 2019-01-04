@@ -71,5 +71,6 @@ vec3 genNormal(vec3 p){
 }
 
 void main(){
-  
+  // fragment position
+  vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
 }
