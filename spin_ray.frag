@@ -73,4 +73,9 @@ vec3 genNormal(vec3 p){
 void main(){
   // fragment position
   vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+
+  // camera and ray
+  vec3 cSide = cross(cDir, cUp);
+  float targetDepth = 1.0;
+  vec3 ray = normalize(cSide * p.x + cUp * p.y + cDir * targetDepth);
 }
