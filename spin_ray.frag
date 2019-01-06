@@ -78,4 +78,14 @@ void main(){
   vec3 cSide = cross(cDir, cUp);
   float targetDepth = 1.0;
   vec3 ray = normalize(cSide * p.x + cUp * p.y + cDir * targetDepth);
+
+  // marching loop
+  float tmp, dist;
+  tmp = 0.0;
+  vec3 dPos = cPos;
+  for(int i = 0; i < 256; i++){
+    dist = distFunc(dPos);
+    tmp += dist;
+    dPos = cPos + tmp * ray;
+  }
 }
