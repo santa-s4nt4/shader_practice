@@ -91,4 +91,9 @@ void main(){
 
   // hit check
   vec3 color;
+  if(abs(dist) < 0.001){
+    vec3 normal = genNormal(dPos);
+    float diff = clamp(dot(lightDir, normal), 0.1, 1.0);
+    color = vec3(1.0, 1.0, 1.0) * diff;
+  }
 }
