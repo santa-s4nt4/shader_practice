@@ -88,4 +88,7 @@ void main(){
     tmp += dist;
     dPos = cPos + tmp * ray;
   }
+
+  // hit check
+  vec3 color;
 }
