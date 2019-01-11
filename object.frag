@@ -29,6 +29,17 @@ vec3 rotate(vec3 p, float angle, vec3 axis){
     return m * p;
 }
 
+vec3 twist(vec3 p, float power){
+    float s = sin(power * p.y);
+    float c = cos(power * p.y);
+    mat3 m = mat3(
+          c, 0.0,  -s,
+        0.0, 1.0, 0.0,
+          s, 0.0,   c
+    );
+    return m * p;
+}
+
 // smoothing min
 float smoothMin(float d1, float d2, float k){
   float h = exp(-k * d1) + exp(-k * d2);
