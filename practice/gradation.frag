@@ -8,7 +8,7 @@ void main(){
   vec2 position = (gl_FragCoord.xy / resolution.xy);
 
   vec3 color = exp2(-vec3(1.0, 0.8, 0.1) / position.x);
-  color = (mat3(0.0, 1.5, 0.0,
+  color = (mat3(1.0, 1.5, 0.0,
                 0.0, 1.0, 0.5,
                 1.0, 0.0, 0.2) * color);
 
