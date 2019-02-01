@@ -18,3 +18,4 @@ void main(void) {
   vec4 c2 = vec4(0.1 * (1.0 - g), 0.0, 0.0, 1.0);
   float smooth = 0.015;
   gl_FragColor = mix(c1, c2, smoothstep(0.5 - smooth, 0.5, domain) - smoothstep(1.0 - smooth, 1.0, domain));
+}
