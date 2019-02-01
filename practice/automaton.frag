@@ -7,7 +7,7 @@ precision mediump float;
 uniform float time;
 uniform vec2 resolution;
 varying vec2 surfacePosition;
-const int max_iterations = 9.0;
+const int max_iterations = 8.0;
 const float edgelen = 1.4142135623730950488016887242097;
 
 float dist(vec3 p){
