@@ -17,5 +17,5 @@ void main(){
   e = s.yzwx,
   f = max(o.x - s, e - o.x);
 
-  gl_FragColor = dot(clamp(f * r.y, 0.0, 1.0), 72.0 * (s - e)) * (s - 0.1) + f;
+  gl_FragColor = dot(clamp(f * r.y, 0.1, 1.0), 80.0 * (s - e / 1.5)) * (s - 0.1) + f / 10.0;
 }
