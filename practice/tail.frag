@@ -34,12 +34,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord){
   float t = 0.06, layers = 0.0, d = 0.0, aD;
   float thD = 0.02;
   for(float i = 0.0; i < 250.0; i++){
-    if(layers > 15.0 || col.x > 1.0 || t > 5.6) break;
+    if(layers > 15.0 || col.x > 0.5 || t > 6.6) break;
     sp = ro + rd * t;
     d = map(sp);
     aD = (thD - abs(d) * 15.0 / 16.0) / thD;
     if(aD > 0.0){
-      col += aD * aD * (3.0 - 2.0 * aD) / (1.0 + t * t * 0.25) * 0.2;
+      col += aD * aD * (2.0 - 1.0 * aD) / (1.0 + t * t * 0.25) * 0.2;
       layers++;
     }
     t += max(d * 0.7, thD * 1.5) * dstepf;
