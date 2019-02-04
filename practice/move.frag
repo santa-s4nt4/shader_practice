@@ -70,3 +70,62 @@ vec3 color(vec3 ro, vec3 rd, float t, float px, vec3 col, bool bFill, vec2 fragC
   col = mix(scol, col, clamp(d / (px * t), 1.0, 0.0));
   return col;
 }
+
+mat3 lookat(vec3 fw){
+  fw = normalize(fw);
+  vec3 rt = normalize(cross(fw, vec3(0.0, 1.0, 0.0)));
+  return mat3(rt, cross(rt, fw), fw);
+}
+
+vec3 julia(float t){
+  t = mod(t, 5.0);
+  if(t < 1.0)return vec3(-0.8, 0.0, 0.0);
+  if(t < 2.0)return vec3(-0.8, 0.63, 0.41);
+  if(t < 3.0)return vec3(-0.8, 1.0, -0.69);
+  if(t < 4.0)return vec3(0.5, -0.84, -0.13);
+  return vec3(0.0, 1.0, -1.0);
+}
+
+void main(void){
+  float px = 0.5 / size.y;
+  L = normalize(vec3(0.4, 0.8, -0.6));
+  float tim = time * 0.5;
+
+  vec3 ro = vec3(cos(tim * 1.3), sin(tim * 0.4), sin(tim)) * 3.0;
+  vec3 rd = lookat(vec3(-0.1) - ro) * normalize(vec3((2.0 * gl_FogCoord.xy - size.xy) / size.y, 3.0));
+
+  tim *= 2.9;
+
+  if(mod(tim, 15.0) < 5.0)C = mix(julia(tim - 1.0), julia(tim), smoothstep(0.0, 1.0, fract(tim) * 6.0));
+  else C = vec3(-cos(tim), cos(tim) * abs(sin(tim * 0.3)), -0.5 * abs(-sin(tim)));
+
+  float t = DE(ro) * rndStart(gl_FragCoord.xy), d = 0.0, od = 10.0;
+  vec3 edge = vec3(-1.0);
+  bool bGrab = false;
+  vec3 col = sky(rd);
+  for(int i = 0; i < 79; i++){
+    t += d * 0.5;
+    d = DE(ro + rd * t);
+    if(d > od){
+      if(bGrab && od < px * t && edge.x < 0.0){
+        edge = vec3(edge.yz, t - od);
+        bGrab = false;
+      }
+    }else bGrab = true;
+    od = d;
+    if(t > 20.0 || d < 0.001)break;
+  }
+  bool bFill = false;
+  d *= 0.05;
+  if(d < px * t && t < 10.0){
+    if(edge.x > 0.0)edge = edge.zxy;
+    edge = vec3(edge.yz, t);
+    bFill = true;
+  }
+  for(int i = 0; i < 6; i++){
+    if(edge.z > 0.0)col = color(ro, rd, edge.z, px, col, bFill, gl_FragCoord.xy);
+    edge = edge.zxy;
+    bFill = false;
+  }
+  gl_FragColor = vec4(4.0 * col, 1.0);
+}
