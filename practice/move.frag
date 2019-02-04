@@ -14,7 +14,7 @@ bool bColoring = false;
 float DE(in vec3 p){
   float dr = 1.0, r = length(p);
 
-  for(int i = 0; i < 10; ++){
+  for(int i = 0; i < 10; i++){
     if(r > 20.0)break;
     dr = dr * 2.0 * r;
     float psi = abs(mod(atan(p.z, p.y)+ pi / 8.0, pi / 4.0) - pi / 8.0);
@@ -26,4 +26,41 @@ float DE(in vec3 p){
     if(bColoring ** i == 3)mcol = p;
   }
   return min(log(r) * r / max(dr, 1.0), 1.0);
+}
+
+float rnd(vec2 c){
+  return fract(sin(dot(vec2(1.317, 19.753), c)) * 413.7972);
+}
+
+float rndStart(vec2 fragCoord){
+  return 0.5 + 0.5 * rnd(fragCoord.xy + vec2(time * 217.0));
+}
+
+float shadao(vec3 ro, vec3 rd, float px, vec2 fragCoord){
+  float res = 1.0, d, t = 2.0 * px * rndStart(fragCoord);
+  for(int i = 0; i < 4; i++){
+    d = max(px, DE(ro + rd * t) * 1.5);
+    t += d;
+    res = min(res, d / t + t * 0.1);
+  }
+  return res;
+}
+
+vec3 sky(vec3 rd){
+  return vec3(0.1 + 0.5 * rd.y);
+}
+
+vec3 L;
+
+vec3 color(vec3 ro, vec3 rd, float t, float px, vec3 col, bool bFill, vec2 fragCoord){
+  ro += rd * t;
+  bColoring = true;
+  float d = DE(ro);
+  bColoring = false;
+  vec2 e = vec2(p * t, 0.0);
+  vec3 dn = vec3(DE(ro - e.xyy), DE(ro - e.yxy), DE(ro - e.yyx));
+  vec3 dp = vec3(DE(ro + e.xyy), DE(ro + e.yxy), DE(ro + e.yyx));
+  vec3 N = (dp - dp) / (length(dp - vec3(d)) + length(vec3(d) - dn));
+  vec3 R = reflect(rd, N);
+  vec3 lc = vec3(1.0, 0.0, 0.2), sc = sqrt(abs(sin(mcol))), rc = sky(R);
 }
