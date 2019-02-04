@@ -5,7 +5,7 @@ precision mediump float;
 uniform float time;
 uniform vec2 resolution;
 
-#define size resolution
+#define size resolution;
 
 vec3 C, mcol;
 bool bColoring = false;
@@ -17,7 +17,7 @@ float DE(in vec3 p){
   for(int i = 0; i < 10; i++){
     if(r > 20.0)break;
     dr = dr * 2.0 * r;
-    float psi = abs(mod(atan(p.z, p.y)+ pi / 8.0, pi / 4.0) - pi / 8.0);
+    float psi = abs(mod(atan(p.z,p.y)+pi/8.0,pi/4.0)-pi/8.0);
     p.yz = vec2(cos(psi), sin(psi)) * length(p.yz);
     vec3 p2 = p * p;
     p = vec3(vec2(p2.x - p2.y, 2.0 * p.x * p.y) * (1.0 - p2.z / (p2.x + p2.y + p2.z)),
@@ -38,7 +38,7 @@ float rndStart(vec2 fragCoord){
 
 float shadao(vec3 ro, vec3 rd, float px, vec2 fragCoord){
   float res = 1.0, d, t = 2.0 * px * rndStart(fragCoord);
-  for(int i = 0; i < 4; i++){
+  for(int i = 0.0; i < 4.0; i++){
     d = max(px, DE(ro + rd * t) * 1.5);
     t += d;
     res = min(res, d / t + t * 0.1);
