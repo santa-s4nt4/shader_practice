@@ -115,7 +115,7 @@ void main( void ) {
 	}
 	for(int i=0;i<6;i++){
 		if(edge.z>0.0)col=Color(ro,rd,edge.z,px,col,bFill,gl_FragCoord.xy);
-		edge=edge.zxy;
+		edge = edge.zxy;
 		bFill = false;
 	}
 	gl_FragColor = vec4(4.0*col,1.0);
