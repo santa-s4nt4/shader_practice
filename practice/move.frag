@@ -63,6 +63,9 @@ vec3 color(vec3 ro, vec3 rd, float t, float px, vec3 col, bool bFill, vec2 fragC
   vec3 N = (dp - dp) / (length(dp - vec3(d)) + length(vec3(d) - dn));
   vec3 R = reflect(rd, N);
   vec3 lc = vec3(1.0, 0.0, 0.2), sc = sqrt(abs(sin(mcol))), rc = sky(R);
+<<<<<<< HEAD
   float sh = clamp(shadao(ro, l, px * t, fragCoord) + 0.2, 0.0, 1.0);
   
+=======
+>>>>>>> cace1b31cada12fc7790731c10771cbcb2ddd663
 }
