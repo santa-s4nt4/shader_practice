@@ -1,4 +1,4 @@
-#ifdef
+#ifdef GL_ES
 precision mediump float;
 #endif
 
@@ -12,3 +12,7 @@ const float mouse_factor = 25.0;
 const float mouse_offsett = 0.0;
 const float fluid_speed = 250.0;
 const float color_intensity = 1.0;
+
+void main(){
+
+}
