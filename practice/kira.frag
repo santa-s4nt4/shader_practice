@@ -5,3 +5,6 @@ precision mediump float;
 uniform float time;
 uniform vec2 mouse;
 uniform vec2 resolution;
+
+vec2 hash(vec2 p){
+}
