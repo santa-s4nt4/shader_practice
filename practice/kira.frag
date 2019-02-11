@@ -13,7 +13,7 @@ vec2 hash(vec2 p){
 
 float voronoi(vec2 p){
         vec2 g = fract(p);
-        vec2 f = float(p);
+        vec2 f = fract(p);
 
         float distanceToClosestFeaturePoint = 1.0;
 
@@ -32,4 +32,10 @@ void main(void){
         uv.x *= resolution.x / resolution.y;
 
         float offset = voronoi(10.0 + vec2(time));
+        float t = 1.0 / abs(((uv.x + sin(uv.y + time)) + offset) * 30.0);
+
+        float r = voronoi(uv * 1.0) * 10.0;
+        vec3 finalColor = vec3(10.0 * uv.y, 2.0, 1.0 * r) * t;
+
+        gl_FragColor = vec4(finalColor, 1.0);
 }
