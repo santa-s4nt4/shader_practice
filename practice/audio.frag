@@ -49,5 +49,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord){
         vec4 t3 = texture(iChannel0, vec2(length(position) / 2.0, 0.1));
         float pulse = 0.5 + sampleMusicA() * 1.8;
 
+        vec3 invFract = color(fractal(pos2, vec2(0.55 + sin(iTime / 3.0 + 0.5) / 2.0, pulse * 0.9)));
         
+        vec3 fract4 = color(fractal(position / 1.6, vec2(0.6 + cos(iTime / 2.0 + 0.5) / 2.0, pulse * 0.8));
+        
+        vec3 c = color(fractal(position, vec2(0.5 + sin(iTime / 3.0) / 2.0, pulse)));
+        
+        t3 = abs(vec4(0.5, 0.1, 0.5, 1.0) - t3) * 2.0;
+        
+        vec4 fract01 =  vec4(c, 1.0);
+        vec4 salida;
+        salida = fract01 / t3 + fract01 * t3 + vec4(invFract, 0.6) + vec4(fract4, 0.3);
+	fragColor = salida;
 }
