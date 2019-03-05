@@ -2,7 +2,7 @@
 precision mediump float;
 #endif
 
-#extension GL_ES_standard_derivatives : enable
+//#extension GL_ES_standard_derivatives : enable
 
 uniform float time;
 uniform vec2 mouse;
