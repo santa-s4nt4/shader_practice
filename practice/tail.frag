@@ -5,9 +5,6 @@ precision mediump float;
 uniform float time;
 uniform vec2 resolution;
 
-float iTime;
-vec3 iResolution;
-
 mat3 getRotZMat(float a){
   return mat3(cos(a), -sin(a), 0.0,
               sin(a), cos(a), 0.0,
@@ -50,11 +47,4 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord){
   col = mix(col, vec3(col.x * col.x  * 0.85, col.x, col.x * col.x * 0.3),
             dot(sin(rd.yzx * 4.0 + sin(rd.zxy * 4.0)), vec3(0.1666)) + 0.25);
   fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
-}
-
-void main(void){
-  iTime = time;
-  iResolution = vec3(resolution, 0.0);
-
-  mainImage(gl_FragColor, gl_FragCoord.xy);
 }
