@@ -13,8 +13,8 @@ vec2 random2( vec2 p ) {
 void main() {
     vec2 st = gl_FragCoord.xy/resolution.xy;
     st.x *= resolution.x/resolution.y;
-    vec3 color = vec3(.0);
-    st *= 8.;
+    vec3 color = vec3(.2);
+    st *= 4.;
     vec2 i_st = floor(st);
     vec2 f_st = fract(st);
     float m_dist = 1.;
