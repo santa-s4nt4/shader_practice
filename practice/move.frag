@@ -19,12 +19,12 @@ float DE(in vec3 p){
 		p.yz = vec2(cos(psi), sin(psi)) * length(p.yz);
 		vec3 p2 = p * p;
 		p = vec3(vec2(p2.x-p2.y, 2.0*p.x*p.y) * (1.0 - p2.z / (p2.x + p2.y + p2.z)),
-			2.0 * p.z * sqrt(p2.x + p2.y)) + C;	
+			2.0 * p.z * sqrt(p2.x + p2.y)) + C;
 		r = length(p);
 		if(bColoring && i==3)mcol = p;
 	}
 	return min(log(r) * r / max(dr,1.0), 1.0);
-} 
+}
 
 float rnd(vec2 c){return fract(sin(dot(vec2(1.317, 19.753), c)) * 413.7972);}
 
@@ -81,12 +81,12 @@ void main( void ) {
 	float px = 0.5 / size.y;
 	L = normalize(vec3(0.4, 0.8, -0.6));
 	float tim = time * 0.5;
-	
+
 	vec3 ro = vec3(cos(tim * 1.3), sin(tim * 0.4), sin(tim)) * 3.0;
 	vec3 rd = lookat(vec3(-0.1)-ro) * normalize(vec3((2.0 * gl_FragCoord.xy - size.xy) / size.y, 3.0));
-	
+
 	tim *= 2.9;
-	
+
 	if(mod(tim,15.0)<5.0)C=mix(Julia(tim-1.0),Julia(tim),smoothstep(0.0,1.0,fract(tim)*6.0));
 	else C=vec3(-cos(tim),cos(tim)*abs(sin(tim*0.3)),-0.5*abs(-sin(tim)));
 
@@ -120,4 +120,3 @@ void main( void ) {
 	}
 	gl_FragColor = vec4(4.0*col,1.0);
 }
-
