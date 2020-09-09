@@ -22,7 +22,12 @@ vec4 hexCoords(vec2 uv)
     vec2 a = mod(uv, r) - h;
     vec2 b = mod(uv - h, r) - h;
 
-    vec2 gv = length(a) < length(b) ? a : b;
+    vec2 gv;
+    if(length(a) < length(b)) {
+        gv = a;
+    } else {
+        gv = b;
+    }
 
     float x = atan(gv.x, gv.y);
     float y = 0.5 - hexDist(gv);
