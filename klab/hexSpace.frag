@@ -43,7 +43,7 @@ vec4 hexCoords(vec2 uv) {
     vec2 id = gv - uv;
 
     float x = atan(gv.x, gv.y);
-    float y = 0.5 - hexDist(gv);
+    float y = .5 - hexDist(gv);
 
     return vec4(x, y, id);
 }
@@ -51,19 +51,19 @@ vec4 hexCoords(vec2 uv) {
 void main() {
     vec2 uv = (gl_FragCoord.xy - .5 * resolution.xy) / resolution.y;
     vec3 col = vec3(0.);
-    float t = time * .3;
+    float t = time * .5;
     float dist = 20.0;
     vec3 ro = vec3(cos(t) * dist, 0., sin(t) * dist);
     vec3 ta = vec3(0., 0., 0.);
 
-    vec3 up = normalize(vec3(0., 1., 0.));
+    vec3 up = normalize(vec3(.5, 2., 0.));
     vec3 ray = camera(ro, ta, up) * normalize(vec3(uv, 1.5));
 
     const int max_march = 128;
 
     vec3 p = ro;
 
-    float d = 0., time2 = 0.;
+    float d = 0., tt = 0.;
     for(int i = 0; i < max_march; i++) {
         d = map(p);
         if(d < .01) break;
@@ -73,12 +73,13 @@ void main() {
     if(d < .01) {
         vec2 st = p.xz;
         vec4 hc = hexCoords(st);
-        float t = time * 15.;
-        float l = pow(sin((length(hc.zw) - t) * .3), 4.);
+        // float t = time * 15.;
+        // float l = pow(sin((length(hc.zw) - t) * .3), 4.);
         vec3 c = vec3(smoothstep(0.01, 0.1, hc.y));
-        float f = exp(-time2 * 0.08);
-        col.rgb = c * l * f;
+        // float f = exp(-tt * 0.08);
+        float i = sin(hc.z * hc.w + time);
+        col.rgb = vec3(c * i + 0.8);
     }
-    vec3 fog = vec3(.0, .1, .5) * time2 * 0.15;
-    gl_FragColor = vec4(col + fog /2., 1.);
+    vec3 fog = vec3(0.5, 0.9, 1.2) * tt * 0.009;
+    gl_FragColor = vec4(col+fog, 1.);
 }
