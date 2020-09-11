@@ -69,9 +69,9 @@ void main() {
     if(d < .01) {
         vec2 st = p.xz;
         vec4 hc = hexCoords(st);
-        // float t = time * 15.;
-        // float l = pow(sin((length(hc.zw) - t) * .3), 4.);
-        // float f = exp(-tt * 0.08);
+        float t = time * 15.;
+        float l = pow(sin((length(hc.zw) - t) * .3), 4.);
+        float f = exp(-tt * 0.08);
         vec3 c = vec3(smoothstep(0.01, 0.1, hc.y));
         float i = sin(hc.z * hc.w + time);
         col.rgb = vec3(c * i + .1);
