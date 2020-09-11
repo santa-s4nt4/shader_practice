@@ -9,6 +9,11 @@ float distanceFunc(vec3 p) {
     return length(p) - sphereSize;
 }
 
+float sdOctahedron( vec3 p, float s) {
+    p = abs(p);
+    return (p.x+p.y+p.z-s)*0.57735027;
+}
+
 void main() {
     // fragment position
     vec2 p = (gl_FragCoord.xy * 2. - resolution) / min(resolution.x, resolution.y);
@@ -35,8 +40,8 @@ void main() {
 
     // hit check
     if(abs(distance) < 0.001) {
-        gl_FragColor = vec4(vec3(1.), 1.);
+        gl_FragColor = vec4(vec3(1., 0., 0.), 1.);
     } else {
-        gl_FragColor = vec4(vec3(0.), 1.);
+        gl_FragColor = vec4(vec3(1.), 1.);
     }
 }

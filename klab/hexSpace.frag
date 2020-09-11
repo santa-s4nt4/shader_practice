@@ -8,13 +8,51 @@ uniform float time;
 uniform vec2 mouse;
 uniform vec2 resolution;
 
+#define MAT_FRAME 5.0
+#define MAT_OUTSIDE 6.0
+#define MAT_INSIDE 7.0
+#define MAT_HEART 8.0
+#define MAT_SHELF 9.0
+#define MAT_FLOOR 10.0
+#define MAT_CORE 11.0
+
 float sdPlane(vec3 p, vec4 n) {
     return dot(p, n.xyz) + n.w;
 }
 
+float sdSphere(vec3 p, float s) {
+    return length(p) - s;
+}
+
+float sdFrameCube(vec3 p, vec3 size, float corner, float cutx) {
+    vec3 s = max(size - corner, 0.);
+    p = p - clamp(p, -s, s);
+    p = abs(p);
+    float d = (p.x + p.y + p.z - corner) * 0.5774;
+    return mix(d, max(d, p.x), cutx);
+}
+
+float sdFrame(vec3 p) {
+    vec3 q = p;
+    p = abs(p) - 0.667;
+    float d = sdFrameCube(p, vec3(0.333), 0.083, 0.0);
+
+    if (p.x > p.y) {p.xy = p.yx;}
+    if (p.x > p.z) {p.xz = p.zx;}
+    p.x += 0.583;
+    p.zy -= 0.117;
+    d = min(d, sdFrameCube(p, vec3(0.1667), 0.033, 1.0));
+
+    p = abs(q);
+    if (p.x < p.y) {p.xy = p.yx;}
+    if (p.x < p.z) {p.xz = p.zx;}
+    p.x -= 2.79;
+    return max(-sdSphere(p, 2.), d);
+}
+
 float map(vec3 p) {
     p = -abs(p);
-    p.y += 2.5;
+    p.y += 1.;
     return sdPlane(p, vec4(0., 1., 0., 1.));
 }
 
@@ -35,7 +73,7 @@ float hexDist(vec2 p) {
 
 vec4 hexCoords(vec2 uv) {
     vec2 r = vec2(1., 1.73);
-    vec2 h = r * 0.5;
+    vec2 h = r * .5;
     vec2 a = mod(uv, r) - h;
     vec2 b = mod(uv - r * 0.5, r) - h;
     vec2 gv = length(a) < length(b) ? a : b;
@@ -49,17 +87,17 @@ vec4 hexCoords(vec2 uv) {
 }
 
 void main() {
-    vec2 uv = (gl_FragCoord.xy - .5 * resolution.xy) / resolution.y;
+    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
     vec3 col = vec3(0.);
     float t = time * .5;
-    float dist = 20.0;
+    float dist = 10.0;
     vec3 ro = vec3(cos(t) * dist, 0., sin(t) * dist);
     vec3 ta = vec3(0., 0., 0.);
 
     vec3 up = normalize(vec3(.5, 2., 0.));
     vec3 ray = camera(ro, ta, up) * normalize(vec3(uv, 1.5));
 
-    const int max_march = 128;
+    const int max_march = 64;
 
     vec3 p = ro;
 
@@ -75,11 +113,10 @@ void main() {
         vec4 hc = hexCoords(st);
         // float t = time * 15.;
         // float l = pow(sin((length(hc.zw) - t) * .3), 4.);
-        vec3 c = vec3(smoothstep(0.01, 0.1, hc.y));
         // float f = exp(-tt * 0.08);
+        vec3 c = vec3(smoothstep(0.01, 0.1, hc.y));
         float i = sin(hc.z * hc.w + time);
         col.rgb = vec3(c * i + 0.8);
     }
-    vec3 fog = vec3(0.5, 0.9, 1.2) * tt * 0.009;
-    gl_FragColor = vec4(col+fog, 1.);
+    gl_FragColor = vec4(col, 1.);
 }
